@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://cs4241-finalproj-opchow.herokuapp.com/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<button padding-right="50px" onclick="handleAddDeg()" name="addDeg">Add Degree Requirement</button>
+		<button padding-left="50px" name="editDeg">Edit Degree Requirement</button>
+
+		<div id="form_container" style="display: none">
+			<div class="panel-group" id="accordion">
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="https://cs4241-finalproj-opchow.herokuapp.com/#collapse1">Computer Science Degree</a>
+						</h4>
+					</div>
+					<div id="collapse1" class="panel-collapse collapse in" aria-expanded="false">
+						<div class="panel-body">
+
+							<form action="https://cs4241-finalproj-opchow.herokuapp.com/" method="post" onsubmit="return false;">
+
+								<div id="typesCSReq">
+									<label for="name">Degree Requirements</label>
+									<button onclick="createDegReq();" name="AddReq">+</button>
+								</div>
+								<button onclick="submitForm();" name="submit">Submit</button>
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+<script>
+var buttonClickCount = 0;
+var req_lst = []
+//Adding the form to create a degree requirement
+function handleAddDeg() {
+	console.log("Adding Form to input degree requirement")
+	var form = document.getElementById('form_container')
+	form.style.display = 'block'
+}
+
+function createDegReq() {
+	var div = document.getElementById("typesCSReq")
+	console.log("creating forms for degree requirements")	
+	
+	// var req_list = ["Core_CS","Systems","Theory_and_Language","Design","Social_Implications", "Advanced_Level_Courses", "CS_MQP"]
+	getReqs(function () {
+		console.log("list "+req_lst)
+		var req_list = req_lst
+		var html = ""
+
+		if (buttonClickCount == 0) {
+			for (var i = 0; i < req_list.length; i++) {
+				html += "<div class='deg_req' id="+req_list[i]+">"
+				html += "<label for='name'>"+req_list[i]+"</label>"
+				html += "<button onclick='addClasses("+req_list[i]+");' name='AddReq'>+</button>"
+				html += "</div>"
+			}
+			buttonClickCount+=1
+		} else {
+			var retVal = prompt("Enter name for new CS Requirement : ", "");
+			html += "<div class='deg_req' id="+retVal+">"
+			html += "<label for='name'>"+retVal+"</label>"
+			html += "<button onclick='addClasses("+retVal+");' name='AddReq'>+</button>"
+			html += "</div>"
+		}
+		console.log("Number of button clicks "+buttonClickCount)
+		div.innerHTML += html
+		console.log("Done adding requirements")
+	})
+
+}
+
+
+function getReqs(callback) {
+	
+  function reqListener () {
+		req_lst = []
+		var json_obj = JSON.parse(this.responseText);
+		console.log("grabbing from "+JSON.stringify(json_obj))
+    for(var attribute in json_obj) {
+			console.log("Attribute"+ attribute)
+      req_lst.push(attribute)
+    }
+		console.log("list2 has "+req_lst)
+		callback()
+  }
+
+  var oReq = new XMLHttpRequest();
+
+  // defining behavior for when the response comes back to us
+  oReq.addEventListener("load", reqListener);
+
+  oReq.open("GET", "/getRequirements");
+  oReq.send();
+}
+
+
+function addClasses(div_name) {
+	console.log("adding to "+div_name.innerHTML)
+	innerHTML = ""
+	innerHTML += "<div>";
+	innerHTML += "<label for='name'>Course Number</label>";
+	innerHTML += "<input class='"+div_name.id+"_num' type='text'>";
+	innerHTML += "<label for='name'>Course Title</label>";
+	innerHTML += "<input class='"+div_name.id+"_title' type='text'>";
+	innerHTML += "<button onclick='deleteElem(this)' name='AddCourse'>-</button>";
+	innerHTML += "</div>";
+	console.log("the String in html "+innerHTML)
+	div_name.innerHTML += innerHTML;
+}
+
+function deleteElem(obj) {
+	console.log("Modifying "+obj.parentNode.parentNode.innerHTML)
+	obj.parentNode.parentNode.removeChild(obj.parentNode)
+}
+
+
+// =====================================================================
+// Ajax and sending requests to server
+
+function submitForm() {
+	var json_degree = {};
+	var reqs_list = document.getElementsByClassName('deg_req')
+	// console.log(reqs_list[0].id+"_num")
+	var test = reqs_list[0].getElementsByClassName(reqs_list[0].id+"_num")
+	for (var i = 0; i < reqs_list.length; i++) {
+		var length_deg_courses = reqs_list[i].getElementsByClassName(reqs_list[i].id+"_num").length
+		var deg_req_json = { "total": length_deg_courses, "courses": [] }
+		var array_course_num = reqs_list[i].getElementsByClassName(reqs_list[i].id+"_num")
+		var array_course_title = reqs_list[i].getElementsByClassName(reqs_list[i].id+"_title")
+		for (var j = 0; j < length_deg_courses; j++) {
+			deg_req_json.courses.push({"course_num": array_course_num[j].value, "course_title": array_course_title[j].value})
+		}
+		console.log("after for loop "+JSON.stringify(deg_req_json.courses.length))
+		json_degree[reqs_list[i].id] = deg_req_json;
+	}
+	console.log("For Core CS, we have "+JSON.stringify(json_degree["Core_CS"].courses))
+	//Sending the request
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", function() {
+		//TODO ADD SOMETHING TO DO AFTER YOU GET A RESPONSE
+    console.log("I am listening for a response")
+		getData()
+  });
+  oReq.open("POST", "/updateRequirements", true);
+  //oReq.send('newclass='+json_degree);
+	oReq.send('newclass='+JSON.stringify(json_degree));
+}
+
+function getData() {
+
+  function reqListener () {
+    console.log("Got a response")
+  }
+
+  var oReq = new XMLHttpRequest();
+
+  // defining behavior for when the response comes back to us
+  oReq.addEventListener("load", reqListener);
+
+  oReq.open("GET", "/data");
+  oReq.send();
+
+}
+</script>
+</body></html>

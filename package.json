@@ -1,0 +1,15 @@
+{
+  "name": "cs4241-fn-jrwatson",
+  "version": "0.0.1",
+  "description": "WPI CS 4241 Assignment fn",
+  "author": "JRWatson",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "imdb-api": "^2.2.0",
+    "sqlite3": "^3.1.8",
+    "string": "^3.3.3"
+  }
+}

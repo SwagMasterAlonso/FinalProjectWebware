@@ -1,0 +1,267 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script>
+
+var studentDat=[]
+
+
+
+getReq(getStudent)
+var reqObject = null
+
+
+function getReq(callback){
+  function reqListener () {
+	reqObject = JSON.parse(this.responseText)
+
+	callback()
+
+}
+
+
+
+
+
+
+
+
+ var oReq = new XMLHttpRequest();
+
+  // defining behavior for when the response comes back to us
+  oReq.addEventListener("load", reqListener);
+
+  oReq.open("GET", "/getRequirements");
+  oReq.send();
+
+
+}
+
+
+
+function getStudent() {
+console.log("In Student")	
+  function reqListener () {
+
+		var getQuery = this.responseText.split('&')
+		var params =getQuery[1].split('=')
+		//console.log("Our stuff")
+		//console.log(params[1])
+		//console.log("Our stuff")
+		studentDat = JSON.parse(params[1]);
+		//console.log("grabbing from "+JSON.stringify(json_obj))
+		console.log(studentDat)
+		
+		for(var attribute in studentDat){
+	
+
+
+			if(attribute =="name"){
+			
+				var nameDiv =document.getElementById('name')
+				//console.log(attribute.name)	
+				nameDiv.innerHTML=("Name: " + studentDat.name)
+
+			}
+
+
+			if(attribute =="year"){
+			
+				var nameDiv =document.getElementById('gradYear')
+				//console.log(attribute.name)	
+				nameDiv.innerHTML=("Graduation Year: " + studentDat.year)
+
+			}
+
+			if(attribute =="major"){
+			
+				var nameDiv =document.getElementById('major')
+				//console.log(attribute.name)	
+				nameDiv.innerHTML=("Major: " + studentDat.major)
+
+			}
+
+
+			if(attribute =="level"){
+			
+				var nameDiv =document.getElementById('level')
+				console.log(attribute.name)	
+				nameDiv.innerHTML=("Level: " + studentDat.level)
+
+			}
+
+
+			if(attribute =="degree"){
+			
+				var nameDiv =document.getElementById('degree')
+				//console.log(attribute.name)	
+				nameDiv.innerHTML=("Degree: " + studentDat.degree)
+
+			}
+
+
+			if(attribute =="Start Year"){
+			
+				var nameDiv =document.getElementById('startYear')
+				//console.log(attribute.name)	
+				nameDiv.innerHTML=("Start Year: " + studentDat["Start Year"])
+
+			}
+
+			if(attribute =="req"){
+			
+				//console.log(studentDat.req[1])
+				//console.log(studentDat.req)
+				var reqArea = document.getElementById('reqsArea')
+				var string =''
+				
+	
+				for(var reqObj in studentDat.req){
+					var string =''
+					var name = reqObj
+					var obj = studentDat.req[reqObj]
+					//console.log("Object name and Vals")
+					
+					//console.log(name)
+					//console.log(obj)
+					//console.log(obj.total)
+					//console.log(obj.courses)
+					console.log(name)
+					console.log("Hereiswhatwewant")
+					console.log(reqObject[reqObj].total)		
+
+
+
+
+
+
+					for(var courseArray in obj.courses){
+
+						var cArray = obj.courses[courseArray]
+
+						//console.log("Title is "+cArray)
+						//console.log("Grade is " + cArray.grade)
+						//console.log ("CourseNumb is " + cArray.course_num)
+						//console.log("Class title is " +cArray.course_title)
+						//console.log(reqArea)
+						string = string + '<p>' + cArray.course_title+'<span class="Grade">Grade: '+cArray.grade+'</span></p>'
+						
+								
+
+	
+						
+				}
+				var metString =''				
+				if(reqObject[reqObj].total != obj.total){
+
+					metString = '<span class="UnCheck">&#x2717;</span>'
+}				else {
+
+					metString ='<span class="Check">&#10003;</span>'
+
+}
+				//console.log(string)
+reqArea.innerHTML = reqArea.innerHTML + '<div class="reqClass"><span class="reqHeader">'+reqObj+'</span><span class="Met">'+obj.total+'/'+reqObject[reqObj].total+metString+'</span><div class="reqList">'+string
+				reqArea.innerHTML = reqArea.innerHTML + '</div></div>'
+							
+
+
+		
+
+
+
+				
+
+			}
+
+
+
+		}
+
+  }
+}
+
+  var oReq = new XMLHttpRequest();
+
+  // defining behavior for when the response comes back to us
+  oReq.addEventListener("load", reqListener);
+
+  oReq.open("POST", "/getStudent");
+  oReq.send("1");
+}
+
+
+
+
+
+
+
+
+
+</script>
+</head>
+
+<body>
+<div class="left">
+
+<div ><img src="http://i.imgur.com/82ngHTl.png"></img></div>
+<div class="itemInMenu"><div class="imageWrapper"><img src="http://i.imgur.com/lJwAMZb.png"></img></div></div>
+
+</div>
+
+<div class="top">
+    <p>Degree Evaluation</p>
+	<hr>
+</div>
+
+<div class="main">
+<div class="infoBar">
+<div class="leftInfo">
+<div class="itemInMain" id="name">Name:</div>
+
+<div class="itemInMain" id="major">Major:</div>
+
+<div class="itemInMain" id="gradYear">Graduation Year:</div>
+
+</div>
+
+
+
+
+<div class="rightInfo">
+<div class ="itemInMain" id="level">Level:</div>
+
+<div class ="itemInMain" id="degree">Degree:</div>
+
+<div class ="itemInMain" id="startYear">Start Year:</div>
+</div>
+</div>
+
+<div class="graphsHeader">Overall Progress</div> <div class="graphs">Space</div>
+
+
+<div class="requirementsArea" id="reqsArea">
+
+
+
+<div class="reqClass">
+<span class="reqHeader">Advanced Systems</span><span class="Met">(5/6)</span><span class="Check">&#10003</span><div class="reqList">
+<p>Algorithms <span class="Grade">Grade: A</span></p>
+<p>Embedded<span class="Grade">Grade: B</span></p>
+<p>Artificial Intelligence <span class="Grade">Grade: C</span></p>
+<p>WebWare <span class="Grade">Grade: A</span></p>
+<p>Java <span class="Grade">Grade: A</span></p>
+<p>Intro to Rac <span class="Grade">Grade: A</span></p>
+</div>
+
+</div>
+
+
+</div>
+</div>
+
+
+
+</div>
+</body>
+</html>

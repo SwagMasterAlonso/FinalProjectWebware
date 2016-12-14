@@ -1,0 +1,244 @@
+
+html {
+
+
+
+
+}
+
+.top {
+    margin-left:80px;
+    padding-top:2px;
+    background-color:white;
+
+    height:100px;
+}
+
+
+
+.top p {
+
+    margin-left:25px;
+    font-size:30px;
+    margin-top:20px;
+}
+
+.top hr {
+    margin-left:25px;
+    margin-top:-20px;
+   
+}
+.left {
+    width: 80px;
+    float:left;
+    height:100%;
+    background-color:#bc1a2b;
+}
+
+.left img{
+
+
+    padding-top:5px;
+
+}
+
+
+.main {
+  margin-left:80px;
+  background-color:white;
+
+  min-height: 100%;
+
+
+ }
+
+.main div {
+
+
+}
+
+.
+
+.itemInMenu {
+
+
+margin-left:auto;
+margin-right:auto;
+width:70px;
+margin-top:10px;
+
+}
+
+.itemInMenu img{
+
+margin-left:auto;
+margin-right:auto;
+display:block;
+}
+
+.imageWrapper{
+margin-left:auto;
+margin-right:auto;
+
+
+
+}
+
+.itemInMain {
+
+	font-size:20px;
+
+	padding-top:10px;
+
+	margin-left:22px;
+}
+
+body {
+
+	margin:0px;
+	background-color:#bc1a2b;
+
+  min-height: 100%;
+
+
+}
+
+
+
+.graphs {
+
+	width:95%;
+	background-color:red;
+	height:300px;
+	margin-left:22px;
+	border-radius:10px;
+}
+
+.graphsHeader {
+	width:300px;
+	margin-left:auto;
+	margin-right:auto;
+	font-size:44px;
+	margin-top:2%;
+	
+}
+
+.reqClass {
+
+	width:47.5%;
+
+	float:left;
+	background-color:#bc1a2b;
+	height:6%;
+	padding-top:20px;
+	text-align:left;
+	margin-right:2%;
+	border-radius:5px;
+	font-size:32px;
+	margin-bottom:20%;
+}	
+
+.reqList p {
+
+
+	color:white;
+	font-size:22px;
+	background-color:#F2F5F4;	
+	margin-top:0px;
+	margin-bottom:-10px;
+	padding-top:10px;
+     	border: .2px solid #D9DAE3;
+	border-radius:2px;
+	padding-left:10px;
+	color:black;
+	height:40px;
+	text-align:bottom;
+}
+
+.reqList p:hover {
+
+
+	
+	background-color:#3BE86A;	
+
+}
+
+
+
+
+
+
+p {
+
+	margin-top:0px;
+}
+
+
+.requirementsArea {
+	
+	margin-top:5%;
+	margin-left:22px;
+	display:block;
+  min-height: 100%;
+
+}
+
+.reqHeader {
+
+	padding-left:10px;
+	color:white;
+
+}
+
+.Grade {
+
+	float:right;
+	margin-right:10px;
+
+
+}
+
+.Met{
+
+
+
+	color:white;
+	font-size:22px;
+	margin-left:10px;
+	margin-top:-100px;
+}
+
+.Check {
+	margin-right:10px;
+	color:#3BE86A;
+	float:right;
+
+}
+
+
+.UnCheck {
+	margin-right:10px;
+	color:orange;
+	float:right;
+}
+
+.rightInfo {
+	float:right;
+
+
+}
+
+.leftInfo {
+
+	float:left
+
+}
+
+.infoBar{
+	width:90%;
+
+	height:100px;
+
+
+}
+

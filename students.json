@@ -1,0 +1,39 @@
+{
+  "1" : {"name": "Jake", "year": "2017", "major":"CS", "level": "Undergraduate", "degree": "Bachelor of Science", "Start Year": "2013", 
+		"req": {
+			"Core_CS":{
+				"total":2,
+				"courses":[{"course_num":"1101","course_title":"Introduction to Programming Design", "grade":"A"}, {"course_num":"2102","course_title":"Objected-Oriented Programming Design", "grade":"A"}]
+			},
+			"Systems":{
+				"total":1,
+				"courses":[{"course_num":"2303","course_title":"Systems Programming Design", "grade":"A"}]
+			},
+			"Theory_and_Language":{
+				"total":1,
+				"courses":[{"course_num":"4533","course_title":"Programming Lang. Translation", "grade":"A"}]
+			},
+			
+			"Design":{
+				"total":1,
+				"courses":[{"course_num":"3041","course_title":"Human-Computer Interaction", "grade":"A"}]
+			},
+			
+			"Social_Implications":{
+				"total":1,
+				"courses":[{"course_num":"3043","course_title":"Social Implications", "grade":"A"}]
+			},
+			
+			"Advanced_Level_Courses":{
+				"total":4,
+				"courses":[{"course_num":"4032","course_title":"Numerical Methods for Linear and nonlinear Systems", "grade":"A"}, {"course_num":"4341","course_title":"Introduction to Artificial Intelligence", "grade":"A"}, {"course_num":"4100","course_title":"Artificial Intelligence for Interactive Media and Games", "grade":"A"}, {"course_num":"4536","course_title":"Programming  Languages", "grade":"A"}]
+		
+			},
+			
+			"CS_MQP":{
+				"total":3,
+				"courses":[{"course_num":"MQP","course_title":"MQP", "grade":"A"}]
+			}
+		}
+	}
+}
