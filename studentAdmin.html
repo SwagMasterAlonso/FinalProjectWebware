@@ -46,12 +46,12 @@
       classesMenu.innerHTML = "";
       for (var attribute in requirementObj) {
         setupReqList(requirementObj, attribute, function(selectMenu) {
-          classesMenu.innerHTML += "<div class='deg_req' id="+attribute+">"
+          classesMenu.innerHTML += "<div class='deg_req' id="+attribute.toString().split(' ').join('_')+">"
           classesMenu.innerHTML += "<h5> " + attribute + ": <span class='req_num'>" + requirementObj[attribute].total + "</span> </h5>"
           for (i = 0; i < requirementObj[attribute].total; i++) {
             classesMenu.innerHTML += "Class number " + (i+1) + ":"
-            classesMenu.innerHTML += '<select class="form-control ' + attribute + '-class">' + selectMenu + '</select>'
-            classesMenu.innerHTML += '<select class="form-control ' + attribute + '-grade">' + gradeList + '</select>'
+            classesMenu.innerHTML += '<select class="form-control ' + attribute.toString().split(' ').join('_') + '-class">' + selectMenu + '</select>'
+            classesMenu.innerHTML += '<select class="form-control ' + attribute.toString().split(' ').join('_') + '-grade">' + gradeList + '</select>'
           }
           classesMenu.innerHtml += "</div>"
         })
@@ -202,9 +202,9 @@ function add() {
   student["Start Year"] = start.value;
   student.req = {};
   for (var i = 0; i < reqs_list.length; i++) {
-    student.req[reqs_list[i].id] = {};
+    student.req[reqs_list[i].id.split('_').join(' ')] = {};
     //student.req[reqs_list[i].id].total = reqs_num_list[i].innerText;
-    student.req[reqs_list[i].id].courses =[];
+    student.req[reqs_list[i].id.split('_').join(' ')].courses =[];
     var array_classes = document.getElementsByClassName(reqs_list[i].id +"-class")
     var array_classes_length = document.getElementsByClassName(reqs_list[i].id +"-class").length
     var array_grades = document.getElementsByClassName(reqs_list[i].id +"-grade")
@@ -213,10 +213,10 @@ function add() {
       if(array_classes[j].value.includes('-None-')) {
         //do nothing
       } else {
-        student.req[reqs_list[i].id].courses.push({"course_title" : array_classes[j].value, "grade" : array_grades[j].value})
+        student.req[reqs_list[i].id.split('_').join(' ')].courses.push({"course_title" : array_classes[j].value, "grade" : array_grades[j].value})
       }
     }
-    student.req[reqs_list[i].id].total = student.req[reqs_list[i].id].courses.length;
+    student.req[reqs_list[i].id.split('_').join(' ')].total = student.req[reqs_list[i].id.split('_').join(' ')].courses.length;
   }
   sendObj[studId.value] = student;
   //window.alert(JSON.stringify(sendObj));
