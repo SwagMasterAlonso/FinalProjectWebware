@@ -29,7 +29,7 @@
 
 		<div class="mainBar">
 		<button class="btn btn-info btn-lg" padding-right="50px" onclick="handleAddDeg()" name="addDeg">Add Degree Requirement</button>
-		<button class="btn btn-info btn-lg" padding-left="50px" name="editDeg">Edit Degree Requirement</button>
+		<button class="btn btn-info btn-lg" padding-left="50px" onclick="handleEditDeg()" name="editDeg">Edit Degree Requirement</button>
 		</div>
 
 <div class="moveToCent">
@@ -66,11 +66,33 @@
 <script>
 var buttonClickCount = 0;
 var req_lst = []
+var json_full_reqs = null
 //Adding the form to create a degree requirement
 function handleAddDeg() {
 	console.log("Adding Form to input degree requirement")
 	var form = document.getElementById('form_container')
 	form.style.display = 'block'
+}
+
+//handles editing requirements
+function handleEditDeg() {
+	if (document.getElementById('form_container').style.display == 'none') {
+		return
+	}
+	var retVal = prompt("Enter name for CS Requirement to delete: ", "");
+	console.log("deleting from "+JSON.stringify(json_full_reqs))
+	delete json_full_reqs[retVal];
+	console.log("after deleting from "+JSON.stringify(json_full_reqs))
+	//Sending the request
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", function() {
+    console.log("I am listening for a response")
+		getData()
+  });
+  oReq.open("POST", "/editRequirements", true);
+  //oReq.send('newclass='+json_degree);
+	oReq.send('editReqs='+JSON.stringify(json_full_reqs));
+	
 }
 
 function createDegReq() {
@@ -110,7 +132,9 @@ function getReqs(callback) {
 	
   function reqListener () {
 		req_lst = []
+		json_full_reqs = null
 		var json_obj = JSON.parse(this.responseText);
+		json_full_reqs = json_obj
 		console.log("grabbing from "+JSON.stringify(json_obj))
     for(var attribute in json_obj) {
 			console.log("Attribute"+ attribute)
@@ -169,7 +193,7 @@ function submitForm() {
 		console.log("after for loop "+JSON.stringify(deg_req_json.courses.length))
 		json_degree[reqs_list[i].id] = deg_req_json;
 	}
-	console.log("For Core CS, we have "+JSON.stringify(json_degree["Core_CS"].courses))
+	
 	//Sending the request
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", function() {
@@ -186,6 +210,8 @@ function getData() {
 
   function reqListener () {
     console.log("Got a response")
+		//TODO CHANGE HERE
+		location.reload()
   }
 
   var oReq = new XMLHttpRequest();

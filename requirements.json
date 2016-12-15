@@ -1,5 +1,5 @@
 {
-	"Core CS":{
+	"Core_CS":{
 		"total" : 6,
 		"courses": [{"course_num":"1101","course_title":"Introduction to Programming Design"},{"course_num":"1102","course_title":"Accel. Introduction to Programming Design"},{"course_num":"2011","course_title":"Machine Organization and Assembly"},{"course_num":"2202","course_title":"Discrete Mathematics"},{"course_num":"2102","course_title":"Object-Oriented Programming Design and Concepts"},{"course_num":"2223","course_title":"Algorithms"},{"course_num":"2303","course_title":"Systems Programming Concepts"},{"course_num":"3013","course_title":"Operating Systems"},{"course_num":"3041","course_title":"Human-Computer Interaction"},{"course_num":"3043","course_title":"Social Implications of Info. Processing"},{"course_num":"3733","course_title":"Software Engineering"},{"course_num":"3133","course_title":"Foundations of Computer Science"}]
 	},
@@ -7,7 +7,7 @@
 		"total": 1,
 		"courses": [{"course_num":"3013","course_title":"Operating Systems"},{"course_num":"4513","course_title":"Distributed Computer Systems"},{"course_num":"4515","course_title":"Computer Architecture"},{"course_num":"4516","course_title":"Advanced Computer Networks"}]
 	},
-	"Theory and Language":{
+	"Theory_and_Language":{
 		"total":1,
 		"courses":[{"course_num":"3133","course_title":"Foundations of Computer Science"},{"course_num":"4120","course_title":"Analysis of Algorithms"},{"course_num":"4123","course_title":"Theory of Computation"},{"course_num":"4533","course_title":"Programming Language Translation"},{"course_num":"4536","course_title":"Programming Languages"}]
 	},
@@ -15,15 +15,15 @@
 		"total":1,
 		"courses":[{"course_num":"3041","course_title":"Human-Computer Interaction "},{"course_num":"3431","course_title":"Introduction to Databse Systems"},{"course_num":"3733","course_title":"Software Engineering"},{"course_num":"4233","course_title":"Object-Oriented Analysis and Design"}]
 	},
-	"Social Implications":{
+	"Social_Implications":{
 		"total":1,
 		"courses":[{"course_num":"3043","course_title":"Social Implication of Info. Processing"}]
 	},
-	"Advanced Level Courses":{
+	"Advanced_Level_Courses":{
 		"total":5,
 		"courses":[{"course_num":"4032","course_title":"Numerical Methods (Linear Sys.)"},{"course_num":"4033","course_title":"Numerical Methods (Diff. Eq)"},{"course_num":"4100","course_title":"Artificial Intelligence for Interactive Media and Games"},{"course_num":"4120","course_title":"Analysis of Algorthms"},{"course_num":"4341","course_title":"Introduction to Artificial Intelligence"},{"course_num":"4123","course_title":"Theory of Computation"},{"course_num":"4241","course_title":"Webware"},{"course_num":"4401","course_title":"Software Security Engineering"},{"course_num":"4404","course_title":"Tools and Techniques in Computer Network Security"},{"course_num":"4432","course_title":"Database Systems II"},{"course_num":"4445","course_title":"Data Mining"},{"course_num":"4513","course_title":"Distrib. Computer Systems"},{"course_num":"4515","course_title":"Computer Architecture"},{"course_num":"4516","course_title":"Advanced Computer Networks"},{"course_num":"4518","course_title":"Mobile and Ubiquitous Computing"},{"course_num":"4533","course_title":"Prog. Lang. Translation"},{"course_num":"4536","course_title":"Progragmming Languages"},{"course_num":"4731","course_title":"Computer Graphics"},{"course_num":"4732","course_title":"Computer Animation"}]
 	},
-	"CS MQP":{
+	"CS_MQP":{
 		"total":3,
 		"courses":[{"course_num":"mqp","course_title":"mqp"}]
 	}

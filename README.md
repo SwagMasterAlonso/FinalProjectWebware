@@ -1,7 +1,9 @@
-Webware cs4241 Final Project
+﻿Webware cs4241 Final Project
 Yao Chow
 Alonso Martinez
 Jacob Watson
+
+!!!!!!WHEN VIEWING OUR PROJECT, USE HTTP, NOT HTTPS. HEROKU WILL TRY TO USE HTTPS BY DEFAULT, BUT THIS WILL CAUSE THE GRAPHS TO NOT LOAD ON THE DEGREE EVALUATION PAGE.!!!!!! 
 
 PROJECT OUTLINE:
 Project Description:

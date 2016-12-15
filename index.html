@@ -23,11 +23,11 @@ function clearChart(){
 	console.log(g2)
 	graphCont.innerHTML = ""
 	graphCont.innerHTML = '<div id="graph1" class="modWidth"></div><div id="graph2" class="modWidth"></div>'
-	
+
 console.log(g1)
 	console.log(g2)
 	makeCharts()
-	
+
 }
 
 
@@ -70,7 +70,7 @@ function getReq(callback){
 
 
 function getStudent() {
-console.log("In Student")	
+console.log("In Student")
   function reqListener () {
 		var counter = 0
 		var getQuery = this.responseText.split('&')
@@ -84,84 +84,84 @@ console.log("In Student")
 		studentDat = JSON.parse(params[1]);
 		//console.log("grabbing from "+JSON.stringify(json_obj))
 		console.log(studentDat)
-		
+
 		for(var attribute in studentDat){
-	
+
 
 
 			if(attribute =="name"){
-			
+
 				var nameDiv =document.getElementById('name')
-				//console.log(attribute.name)	
+				//console.log(attribute.name)
 				nameDiv.innerHTML=("Name: " + studentDat.name)
 
 			}
 
 
 			if(attribute =="year"){
-			
+
 				var nameDiv =document.getElementById('gradYear')
-				//console.log(attribute.name)	
+				//console.log(attribute.name)
 				nameDiv.innerHTML=("Graduation Year: " + studentDat.year)
 
 			}
 
 			if(attribute =="major"){
-			
+
 				var nameDiv =document.getElementById('major')
-				//console.log(attribute.name)	
+				//console.log(attribute.name)
 				nameDiv.innerHTML=("Major: " + studentDat.major)
 
 			}
 
 
 			if(attribute =="level"){
-			
+
 				var nameDiv =document.getElementById('level')
-				console.log(attribute.name)	
+				console.log(attribute.name)
 				nameDiv.innerHTML=("Level: " + studentDat.level)
 
 			}
 
 
 			if(attribute =="degree"){
-			
+
 				var nameDiv =document.getElementById('degree')
-				//console.log(attribute.name)	
+				//console.log(attribute.name)
 				nameDiv.innerHTML=("Degree: " + studentDat.degree)
 
 			}
 
 
 			if(attribute =="Start Year"){
-			
+
 				var nameDiv =document.getElementById('startYear')
-				//console.log(attribute.name)	
+				//console.log(attribute.name)
 				nameDiv.innerHTML=("Start Year: " + studentDat["Start Year"])
 
 			}
 
 			if(attribute =="req"){
-			
+
 				//console.log(studentDat.req[1])
 				//console.log(studentDat.req)
 				var reqArea = document.getElementById('reqsArea')
 				var string =''
-				
-	
+
+
 				for(var reqObj in studentDat.req){
 					var string =''
 					var name = reqObj
 					var obj = studentDat.req[reqObj]
 					//console.log("Object name and Vals")
-					
+
 					console.log(name)
 					console.log(obj)
 					//console.log(obj.total)
 					console.log(obj.courses.length)
 					//console.log(name)
 					//console.log("Hereiswhatwewant")
-					//console.log(reqObject[reqObj].total)		
+					//console.log(reqObject[reqObj].total)
 
 					//TODO ADD CODE TO PUSH STUDENT CLASSES HERE AS WELL AS FROM DEGREE REQUIREMENTS
 					student_classes.push({"req":name, "value":obj.total})
@@ -180,13 +180,13 @@ console.log("In Student")
 						//console.log("Class title is " +cArray.course_title)
 						//console.log(reqArea)
 						string = string + '<p>' + cArray.course_title+'<span class="Grade">Grade: '+cArray.grade+'</span></p>'
-						
-								
 
-	
-						
+
+
+
+
 				}
-				var metString =''				
+				var metString =''
 				if(reqObject[reqObj].total != obj.courses.length){
 
 					metString = '<span class="UnCheck">&#x2717;</span>'
@@ -225,7 +225,7 @@ stringWhole= stringWhole + divider+'<div class="reqClass"><span class="reqHeader
 					//console.log(stringWhole)
 }
 
-							
+
 
 
 				counter =counter + 1
@@ -236,7 +236,7 @@ stringWhole= stringWhole + divider+'<div class="reqClass"><span class="reqHeader
 
 	reqArea.innerHTML = stringWhole
 
-				
+
 
 			}
 
@@ -292,7 +292,7 @@ function makeCharts() {
 	var num_classes_required = 0
 	var student = []
 	var degree_req = []
-	
+
 	for (var i = 0; i < student_classes.length; i++) {
 		console.log("student: "+student_classes[i].value+" degreq: "+deg_req_num_classes[i].value)
 		num_classes_taken += student_classes[i].value
@@ -300,7 +300,7 @@ function makeCharts() {
 		student.push({name: student_classes[i].req, value:student_classes[i].value})
 		degree_req.push({name: deg_req_num_classes[i].req, value:deg_req_num_classes[i].value-student_classes[i].value})
 	}
-	
+
 	var graphdef = {
   	categories:['Completion Chart'],
     dataset: {
@@ -319,8 +319,8 @@ function makeCharts() {
 			right: 10
   	},
 dimension: { width:553, height:400
-		
-		
+
+
 
 
 	},
@@ -329,8 +329,8 @@ graph: {
 },
 	meta: {position:'#graph1'}
   });
-	
-	
+
+
 	var second_graphdef = {
   	categories:['Completed', 'Remaining'],
     dataset: {
@@ -348,8 +348,8 @@ graph: {
   	},
 
 	dimension: { width:553, height:400
-		
-		
+
+
 
 
 	},
@@ -394,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   function buildList(listObj) {
     var studentMenu = document.getElementById("nav")
-    studentMenu.innerHTML = "";
+    studentMenu.innerHTML = "<option>-None-</option>";
     listObj.list.forEach(function(student) {
       studentMenu.innerHTML += '<option>' +student+ '</option>';
     })

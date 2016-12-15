@@ -104,7 +104,7 @@
 <div class="main">
   <div class="mainBar"><button type="button" class="btn btn-info btn-lg myButton" data-toggle="modal" data-target="#addStudent">Add Student</button>
   <button type="button" class="btn btn-info btn-lg myButton" data-toggle="modal" data-target="#removeStudent">Remove Student</button>
-  
+
 </div>
 <div id="addStudent" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -203,7 +203,7 @@ function add() {
   student.req = {};
   for (var i = 0; i < reqs_list.length; i++) {
     student.req[reqs_list[i].id] = {};
-    student.req[reqs_list[i].id].total = reqs_num_list[i].innerText;
+    //student.req[reqs_list[i].id].total = reqs_num_list[i].innerText;
     student.req[reqs_list[i].id].courses =[];
     var array_classes = document.getElementsByClassName(reqs_list[i].id +"-class")
     var array_classes_length = document.getElementsByClassName(reqs_list[i].id +"-class").length
@@ -216,6 +216,7 @@ function add() {
         student.req[reqs_list[i].id].courses.push({"course_title" : array_classes[j].value, "grade" : array_grades[j].value})
       }
     }
+    student.req[reqs_list[i].id].total = student.req[reqs_list[i].id].courses.length;
   }
   sendObj[studId.value] = student;
   //window.alert(JSON.stringify(sendObj));
