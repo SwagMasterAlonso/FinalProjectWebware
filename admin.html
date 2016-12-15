@@ -4,11 +4,35 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<button padding-right="50px" onclick="handleAddDeg()" name="addDeg">Add Degree Requirement</button>
-		<button padding-left="50px" name="editDeg">Edit Degree Requirement</button>
 
+<div class="left">
+
+<div class="logoMain" ><img src="http://i.imgur.com/82ngHTl.png"></img></div>
+<div class="itemInMenu"><div class="imageWrapper"><a href="index.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
+<div class="itemInMenu"><div class="imageWrapper"><a href="studentAdmin.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
+<div class="itemInMenu activeURL"><div class="imageWrapper"><a href="admin.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
+</div>
+
+<div class="topKek">
+    <p>Degree Administration Portal</p>
+	<hr>
+</div>
+
+
+
+
+<div class="main">
+
+
+		<div class="mainBar">
+		<button class="btn btn-info btn-lg" padding-right="50px" onclick="handleAddDeg()" name="addDeg">Add Degree Requirement</button>
+		<button class="btn btn-info btn-lg" padding-left="50px" name="editDeg">Edit Degree Requirement</button>
+		</div>
+
+<div class="moveToCent">
 		<div id="form_container" style="display: none">
 			<div class="panel-group" id="accordion">
 
@@ -36,7 +60,9 @@
 
 			</div>
 		</div>
-
+</div>
+</div>
+</body>
 <script>
 var buttonClickCount = 0;
 var req_lst = []
@@ -172,4 +198,4 @@ function getData() {
 
 }
 </script>
-</body></html>
+</html>

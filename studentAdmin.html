@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<head>
+  <title>Student Admin</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    getReqList()
+    getStudList()
+
+    function getReqList() {
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function() {
+        handleResReq(request);
+      }
+      request.open('GET', '/getRequirements');
+      request.send();
+    }
+
+    function handleResReq(request) {
+      if (request.readyState !== XMLHttpRequest.DONE) {
+        return;
+      }
+
+      if(request.status === 200) {
+        buildClassList (JSON.parse(request.responseText));
+      }
+    }
+
+    function setupReqList(requirementObj, attribute, callback) {
+      var selectMenu = "";
+      selectMenu += '<option>-None-</option>'
+      requirementObj[attribute].courses.forEach(function(course){
+        selectMenu += '<option>' +course.course_title+ '</option>'
+      })
+      callback(selectMenu);
+    }
+
+    function buildClassList(requirementObj) {
+      var classesMenu = document.getElementById('classesDiv');
+      var gradeList = ["<option>-None-</option>", "<option>A</option>", "<option>B</option>", "<option>C</option>", "<option>NR</option>"]
+      classesMenu.innerHTML = "";
+      for (var attribute in requirementObj) {
+        setupReqList(requirementObj, attribute, function(selectMenu) {
+          classesMenu.innerHTML += "<div class='deg_req' id="+attribute+">"
+          classesMenu.innerHTML += "<h5> " + attribute + ": <span class='req_num'>" + requirementObj[attribute].total + "</span> </h5>"
+          for (i = 0; i < requirementObj[attribute].total; i++) {
+            classesMenu.innerHTML += "Class number " + (i+1) + ":"
+            classesMenu.innerHTML += '<select class="form-control ' + attribute + '-class">' + selectMenu + '</select>'
+            classesMenu.innerHTML += '<select class="form-control ' + attribute + '-grade">' + gradeList + '</select>'
+          }
+          classesMenu.innerHtml += "</div>"
+        })
+      }
+    }
+
+    function getStudList() {
+      var req = new XMLHttpRequest();
+       req.onreadystatechange = function() {
+         handleRes(req);
+       }
+       req.open('GET', '/getStudentList');
+       req.send();
+    }
+
+    function handleRes(req) {
+      if (req.readyState !== XMLHttpRequest.DONE) {
+        return;
+      }
+
+      if(req.status === 200) {
+        buildList (JSON.parse(req.responseText));
+      }
+    }
+    function buildList(listObj) {
+      var studentMenu = document.getElementById("remv")
+      studentMenu.innerHTML = "";
+      studentMenu.innerHTML += '<option>-None-</option>'
+      listObj.list.forEach(function(student) {
+        studentMenu.innerHTML += '<option>' +student+ '</option>';
+      })
+    }
+  })
+  </script>
+</head>
+<body>
+
+<div class="left">
+
+<div class="logoMain" ><img src="http://i.imgur.com/82ngHTl.png"></img></div>
+<div class="itemInMenu"><div class="imageWrapper"><a href="index.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
+<div class="itemInMenu activeURL"><div class="imageWrapper"><a href="studentAdmin.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
+<div class="itemInMenu"><div class="imageWrapper"><a href="admin.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
+</div>
+
+<div class="topKek">
+    <p>Student Administration Portal</p>
+	<hr>
+</div>
+<div class="main">
+  <div class="mainBar"><button type="button" class="btn btn-info btn-lg myButton" data-toggle="modal" data-target="#addStudent">Add Student</button>
+  <button type="button" class="btn btn-info btn-lg myButton" data-toggle="modal" data-target="#removeStudent">Remove Student</button>
+  
+</div>
+<div id="addStudent" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Student</h4>
+        </div>
+        <div class="modal-body">
+          <form onsubmit="return false;">
+  <div class="form-group">
+    <label for="name">Student Name:</label>
+    <input type="text" class="form-control" id="name">
+  </div>
+  <div class="form-group">
+    <label for="StudId">Student Id:</label>
+    <input type="text" class="form-control" id="studId">
+  </div>
+  <div class="form-group">
+    <label for="major">Student Major:</label>
+    <input type="text" class="form-control" id="major">
+  </div>
+  <div class="form-group">
+    <label for="year">Class Year:</label>
+    <input type="text" class="form-control" id="year">
+  </div>
+  <div class="form-group">
+    <label for="year">Start Year:</label>
+    <input type="text" class="form-control" id="start">
+  </div>
+  <div class="form-group">
+    <label for="year">Degree:</label>
+    <input type="text" class="form-control" id="degree">
+  </div>
+  <div class="form-group">
+    <label for="year">Level:</label>
+    <input type="text" class="form-control" id="level">
+  </div>
+  <div id="classesDiv">
+  </div>
+  <button type="submit" class="btn btn-info" data-toggle="tooltip" title="Add this student" onclick="add();">Submit</button>
+</form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div id="removeStudent" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Remove Student</h4>
+        </div>
+        <div class="modal-body">
+          <p>Select the student to remove from the list below.</p>
+          <form class="form-horizontal" onsubmit="return false;">
+          <label for="remv">Students:</label>
+          <select class="form-control" id="remv" name="remv">
+          </select>
+          <button type="submit" class="btn btn-info" data-toggle="tooltip" title="Remove the selected student" onclick="remove();">Submit</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+function add() {
+  var student = {};
+  var name = document.getElementById('name')
+  var year = document.getElementById('year')
+  var major = document.getElementById('major')
+  var studId = document.getElementById('studId')
+  var level = document.getElementById('level')
+  var start = document.getElementById('start')
+  var degree = document.getElementById('degree')
+  var reqs_list = document.getElementsByClassName('deg_req')
+  var reqs_num_list = document.getElementsByClassName('req_num')
+  var sendObj = {};
+  student.req = {};
+  student.name = name.value;
+  student.year = year.value;
+  student.major = major.value;
+  student.level = level.value;
+  student["Start Year"] = start.value;
+  student.req = {};
+  for (var i = 0; i < reqs_list.length; i++) {
+    student.req[reqs_list[i].id] = {};
+    student.req[reqs_list[i].id].total = reqs_num_list[i].innerText;
+    student.req[reqs_list[i].id].courses =[];
+    var array_classes = document.getElementsByClassName(reqs_list[i].id +"-class")
+    var array_classes_length = document.getElementsByClassName(reqs_list[i].id +"-class").length
+    var array_grades = document.getElementsByClassName(reqs_list[i].id +"-grade")
+    var h = 0;
+    for(var j = 0; j < array_classes_length; j++) {
+      if(array_classes[j].value.includes('-None-')) {
+        //do nothing
+      } else {
+        student.req[reqs_list[i].id].courses.push({"course_title" : array_classes[j].value, "grade" : array_grades[j].value})
+      }
+    }
+  }
+  sendObj[studId.value] = student;
+  //window.alert(JSON.stringify(sendObj));
+  addSend(sendObj);
+}
+function addSend(sendObj) {
+  var reqadd = new XMLHttpRequest();
+  reqadd.open('POST', '/addStudent', true);
+  reqadd.onreadystatechange = function () {
+    handleResAdd(reqadd);
+  }
+  reqadd.send('newStudent=' + JSON.stringify(sendObj))
+}
+function handleResAdd(reqadd) {
+  if (reqadd.readyState !== XMLHttpRequest.DONE) {
+  return;
+  }
+  if(reqadd.status === 200) {
+    location.reload();
+  }
+}
+</script>
+<script>
+function remove() {
+  var removeRequest = document.getElementById('remv')
+  var reqrm = new XMLHttpRequest();
+  reqrm.open('POST', '/removeStudent', true);
+  reqrm.onreadystatechange = function () {
+    handleRes(reqrm);
+  }
+  reqrm.send('studentID=' + removeRequest.value)
+}
+function handleRes(reqrm) {
+  if (reqrm.readyState !== XMLHttpRequest.DONE) {
+  return;
+  }
+  if(reqrm.status === 200) {
+    buildList (JSON.parse(reqrm.responseText));
+  }
+}
+function buildList(listObj) {
+  var studentMenu = document.getElementById("remv")
+  studentMenu.innerHTML = "";
+  studentMenu.innerHTML += '<option>-None-</option>'
+  listObj.list.forEach(function(student) {
+    studentMenu.innerHTML += '<option>' +student+ '</option>';
+  })
+}
+</script>
+</html>

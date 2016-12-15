@@ -1,15 +1,45 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
+	<script type="text/javascript" src="node_modules/uvcharts/dist/uvcharts.js"></script>
 <script>
 
 var studentDat=[]
+var student_classes = []
+var deg_req_num_classes = []//{"req": "CS_core", "value": integer}
 
+
+function clearChart(){
+
+	var g1 =document.getElementById('graph1')
+
+	var g2 =document.getElementById('graph2')
+
+	var graphCont =document.getElementById('graphReset')
+
+	console.log("In Clear Charts")
+	console.log(g1)
+	console.log(g2)
+	graphCont.innerHTML = ""
+	graphCont.innerHTML = '<div id="graph1" class="modWidth"></div><div id="graph2" class="modWidth"></div>'
+	
+console.log(g1)
+	console.log(g2)
+	makeCharts()
+	
+}
 
 
 getReq(getStudent)
 var reqObject = null
-
+function navigate(dropDown){
+	createCookie(dropDown.value)
+	console.log("Changing cookie to")
+	console.log(dropDown.value)
+	console.log(document.cookie)
+	location.reload()
+}
 
 function getReq(callback){
   function reqListener () {
@@ -42,9 +72,12 @@ function getReq(callback){
 function getStudent() {
 console.log("In Student")	
   function reqListener () {
-
+		var counter = 0
 		var getQuery = this.responseText.split('&')
 		var params =getQuery[1].split('=')
+		var divider =''
+		var end =''
+		var stringWhole =''
 		//console.log("Our stuff")
 		//console.log(params[1])
 		//console.log("Our stuff")
@@ -122,15 +155,17 @@ console.log("In Student")
 					var obj = studentDat.req[reqObj]
 					//console.log("Object name and Vals")
 					
-					//console.log(name)
-					//console.log(obj)
-					//console.log(obj.total)
-					//console.log(obj.courses)
 					console.log(name)
-					console.log("Hereiswhatwewant")
-					console.log(reqObject[reqObj].total)		
+					console.log(obj)
+					//console.log(obj.total)
+					console.log(obj.courses.length)
+					//console.log(name)
+					//console.log("Hereiswhatwewant")
+					//console.log(reqObject[reqObj].total)		
 
-
+					//TODO ADD CODE TO PUSH STUDENT CLASSES HERE AS WELL AS FROM DEGREE REQUIREMENTS
+					student_classes.push({"req":name, "value":obj.total})
+					deg_req_num_classes.push({"req":name, "value":reqObject[reqObj].total})
 
 
 
@@ -152,7 +187,7 @@ console.log("In Student")
 						
 				}
 				var metString =''				
-				if(reqObject[reqObj].total != obj.total){
+				if(reqObject[reqObj].total != obj.courses.length){
 
 					metString = '<span class="UnCheck">&#x2717;</span>'
 }				else {
@@ -160,15 +195,46 @@ console.log("In Student")
 					metString ='<span class="Check">&#10003;</span>'
 
 }
-				//console.log(string)
-reqArea.innerHTML = reqArea.innerHTML + '<div class="reqClass"><span class="reqHeader">'+reqObj+'</span><span class="Met">'+obj.total+'/'+reqObject[reqObj].total+metString+'</span><div class="reqList">'+string
-				reqArea.innerHTML = reqArea.innerHTML + '</div></div>'
+				//console.log(counter)
+
+				if(counter == 0){
+					//console.log("IN 0")
+					divider = '<div class="divider">'
+
+					end = ''
+
+
+
+stringWhole= stringWhole + divider+'<div class="reqClass"><span class="reqHeader">'+reqObj+'</span><span class="Met">'+obj.courses.length+'/'+reqObject[reqObj].total+metString+'</span><div class="reqList">'+string+'</div></div>'
+
+					//console.log(stringWhole)
+}
+	else if(counter ==2) {
+					//console.log("IN 2")
+				divider=''
+				end ='</div>'
+
+				stringWhole = stringWhole + '<div class="reqClass"><span class="reqHeader">'+reqObj+'</span><span class="Met">'+obj.courses.length+'/'+reqObject[reqObj].total+metString+'</span><div class="reqList">'+string+'</div></div></div>'
+					//console.log(stringWhole)
+} else {
+					//console.log("IN 1")
+
+				stringWhole = stringWhole + '<div class="reqClass"><span class="reqHeader">'+reqObj+'</span><span class="Met">'+obj.courses.length+'/'+reqObject[reqObj].total+metString+'</span><div class="reqList">'+string+'</div></div></div>'
+
+
+					//console.log(stringWhole)
+}
+
 							
 
 
-		
+				counter =counter + 1
+				if(counter == 2){
+				//console.log("Resetting to 0")
+				counter=0
+}
 
-
+	reqArea.innerHTML = stringWhole
 
 				
 
@@ -179,17 +245,121 @@ reqArea.innerHTML = reqArea.innerHTML + '<div class="reqClass"><span class="reqH
 		}
 
   }
+
+//TODO DO FUNCTION TO CREATE THE CHART
+	console.log("students "+student_classes)
+	console.log("deg_reqs "+deg_req_num_classes)
+	makeCharts()
+
+
 }
 
   var oReq = new XMLHttpRequest();
-
+var target = readCookie("target")
+console.log("TARGET IS")
+console.log(target)
+  if(target === undefined || target == "" ||target==null) {
+    target = "1"
+  }
   // defining behavior for when the response comes back to us
   oReq.addEventListener("load", reqListener);
 
   oReq.open("POST", "/getStudent");
-  oReq.send("1");
+  oReq.send(target);
 }
 
+
+
+function createCookie(name) {
+    document.cookie = "target"+"="+name+'; Max-Age:3';
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+
+
+function makeCharts() {
+	var num_classes_taken = 0
+	var num_classes_required = 0
+	var student = []
+	var degree_req = []
+	
+	for (var i = 0; i < student_classes.length; i++) {
+		console.log("student: "+student_classes[i].value+" degreq: "+deg_req_num_classes[i].value)
+		num_classes_taken += student_classes[i].value
+		num_classes_required += deg_req_num_classes[i].value
+		student.push({name: student_classes[i].req, value:student_classes[i].value})
+		degree_req.push({name: deg_req_num_classes[i].req, value:deg_req_num_classes[i].value-student_classes[i].value})
+	}
+	
+	var graphdef = {
+  	categories:['Completion Chart'],
+    dataset: {
+    	"Completion Chart": [
+      	{name: "Total Courses", value:num_classes_taken},
+				{name: "Courses Required", value:num_classes_required-num_classes_taken}
+      ]
+    }
+  }
+	console.log("here"+uv)
+  var chartObject = uv.chart('Donut', graphdef, {
+  	margin: {
+			top: 40,
+			bottom: 50,
+			left: 10,
+			right: 10
+  	},
+dimension: { width:553, height:400
+		
+		
+
+
+	},
+graph: {
+	custompalette: ['red','blue']
+},
+	meta: {position:'#graph1'}
+  });
+	
+	
+	var second_graphdef = {
+  	categories:['Completed', 'Remaining'],
+    dataset: {
+    	"Completed": student,
+    	"Remaining": degree_req
+    }
+  }
+	console.log("here"+uv)
+  var chartObject = uv.chart('StackedBar', second_graphdef, {
+  	margin: {
+			top: 40,
+			bottom: 50,
+			left: 10,
+			right: 10
+  	},
+
+	dimension: { width:553, height:400
+		
+		
+
+
+	},
+graph: {
+	custompalette: ['red','blue']
+},
+
+	meta: {position:'#graph2'}
+  });
+}
 
 
 
@@ -199,18 +369,53 @@ reqArea.innerHTML = reqArea.innerHTML + '<div class="reqClass"><span class="reqH
 
 
 </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  getStudList()
+  function getStudList() {
+    var req = new XMLHttpRequest();
+     req.onreadystatechange = function() {
+       handleRes(req);
+     }
+     req.open('GET', '/getStudentList');
+     req.send();
+  }
+
+  function handleRes(req) {
+    if (req.readyState !== XMLHttpRequest.DONE) {
+      return;
+    }
+
+    if(req.status === 200) {
+      buildList (JSON.parse(req.responseText));
+    }
+  }
+  function buildList(listObj) {
+    var studentMenu = document.getElementById("nav")
+    studentMenu.innerHTML = "";
+    listObj.list.forEach(function(student) {
+      studentMenu.innerHTML += '<option>' +student+ '</option>';
+    })
+  }
+})
+</script>
 </head>
 
 <body>
 <div class="left">
 
-<div ><img src="http://i.imgur.com/82ngHTl.png"></img></div>
-<div class="itemInMenu"><div class="imageWrapper"><img src="http://i.imgur.com/lJwAMZb.png"></img></div></div>
-
+<div class="logoMain" ><img src="http://i.imgur.com/82ngHTl.png"></img></div>
+<div class="itemInMenu activeURL"><div class="imageWrapper"><a href="index.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
+<div class="itemInMenu"><div class="imageWrapper"><a href="studentAdmin.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
+<div class="itemInMenu"><div class="imageWrapper"><a href="admin.html"><img src="http://i.imgur.com/lJwAMZb.png"></img></a></div></div>
 </div>
 
 <div class="top">
     <p>Degree Evaluation</p>
+<select id="nav" onchange="navigate(this)">
+    </select>
 	<hr>
 </div>
 
@@ -237,24 +442,24 @@ reqArea.innerHTML = reqArea.innerHTML + '<div class="reqClass"><span class="reqH
 </div>
 </div>
 
-<div class="graphsHeader">Overall Progress</div> <div class="graphs">Space</div>
+<div class="graphsHeader">Overall Progress</div> <div id ="graphReset" class="graphs">
+
+<div id="graph1" class="modWidth"></div>
+
+<div id="graph2" class="modWidth"></div>
+
+</div>
+
+
+
+
 
 
 <div class="requirementsArea" id="reqsArea">
 
 
 
-<div class="reqClass">
-<span class="reqHeader">Advanced Systems</span><span class="Met">(5/6)</span><span class="Check">&#10003</span><div class="reqList">
-<p>Algorithms <span class="Grade">Grade: A</span></p>
-<p>Embedded<span class="Grade">Grade: B</span></p>
-<p>Artificial Intelligence <span class="Grade">Grade: C</span></p>
-<p>WebWare <span class="Grade">Grade: A</span></p>
-<p>Java <span class="Grade">Grade: A</span></p>
-<p>Intro to Rac <span class="Grade">Grade: A</span></p>
-</div>
 
-</div>
 
 
 </div>
